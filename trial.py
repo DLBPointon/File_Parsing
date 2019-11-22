@@ -6,13 +6,14 @@ This is my program to take an input file and produce outputs
 based on the function requested by the User.
 -------------------------------------------------------------
 FI - FileInput & FO - FileOutPut are mandatory arguments.
-------------A '.fa' file will be returned!!!-----------------
+--------------'.fa' file will be returned!!!-----------------
 -------------------------------------------------------------
 Entry Function is called when -FI, -FO and -en are entered.
   -  This will split a file into a -en defined number of 
      enteries per proceduraly generated files.
      Entries are header and sequence pairs.
   -  Example Input:
+
      'python trial.py -FI ~Skynet/Desktop/FileOfInterest 
      -FO ~Skynet/Desktop/SaveDir -en 100'
 -------------------------------------------------------------
@@ -20,6 +21,7 @@ Chunks Function is called when -FI, -FO and -ch are entered.
   -  This will split a file into -ch defined number of base
      pairs per proceduraly generated file.
   -  Example Input:
+
      'python trial.py -FI ~Replicator/Desktop/FileOfInterest 
      -FO ~Replicator/Desktop/SaveDir -org Asuran -ch 100000'
 -------------------------------------------------------------
@@ -30,7 +32,7 @@ Surgical Function is called when -FI, -FO, -sc and -ec are
      A file will be produced.
   -  Example Input:
 
-     python trial.py -FI ~R2D2/Desktop/FileOfInterest 
+     'python trial.py -FI ~R2D2/Desktop/FileOfInterest 
      -FO ~R2D2/Desktop/SaveDir -sc 100000 -ec 150000'
 -------------------------------------------------------------
 Joiner Function is called when only -FI and -FO are entered.
@@ -62,6 +64,7 @@ FILE Nomenclature - Uses the examples above
   -  Surgical - Files returned as:
        snipped|100000/150000.fa
   -  Joiner - Files returned as:
+  	   Not Finished
 
 -------------------------------------------------------------
 		   By Damon-Lee Pointon
@@ -121,6 +124,10 @@ def parse_command_args(args=sys.argv[1:]):
 							type=int,
 							help='The number of entries required per file',
 							dest='EN')
+	parser.add_argument('-j', '--Joiner',
+							action='store',
+							help='A non functional argument that specifies the joiner junction',
+							dest='J')
 	options=parser.parse_args(args)
 	return options
 
@@ -131,8 +138,6 @@ def main():
 	"""
 	options=parse_command_args()
 	for x in sys.argv:
-		print(x)
-
 		if x == '-FI' and '-FO':
 
 			if x == '-en':
@@ -153,16 +158,16 @@ def main():
 					print('Check your number of arguments, somethings not right')
 					sys.exit(0)
 
-			if x != '-en' or '-ch' or '-sc':
+			if x == '-j':
 				Joiner(sys.argv[2], sys.argv[4])
 				if not len(sys.argv[1:]) == 4:
 					print('Check your number of arguments, somethings not right')
 					sys.exit(0)
 
 
-			if x == '-en' and '-org', '-ch' and '-sc' and '-ec': #Cannot be checked for functionality until all funcs work
+			if len(x) == 14: 
 				Entry(sys.argv[2], sys.argv[4], int(sys.argv[6]))
-				Chunks(sys.argv[2], sys.argv[4], sys.argv[8], int(sys.argv[10]))
+				Chunks(sys.argv[2], sys.argv[4], sys.argv[8], int(sys.argv[10]))				
 				Surgical(sys.argv[2], sys.argv[4], int(sys.argv[12]), int(sys.argv[14]))
 				Joiner(sys.argv[2], sys.argv[4])
 				if not len(sys.argv[1:]) == 14:
@@ -179,6 +184,9 @@ def main():
 			sys.exit(0)
 
 
+print(f'You have entered:\n{sys.argv[1:]}')
+
+
 def read_fasta(fp): # Temp Until Entry is optimised
         name, seq = None, []
         for line in fp:
@@ -189,6 +197,7 @@ def read_fasta(fp): # Temp Until Entry is optimised
             else:
                 seq.append(line)
         if name: yield (name, ''.join(seq))
+
 			
 def Entry(FI, FO, EN = 1): #Optimise me please
 	
@@ -216,25 +225,27 @@ def Entry(FI, FO, EN = 1): #Optimise me please
 				Done.write(str(NandS).strip('[](),""''').replace(',', '\n'))
 				NandS = [] #Will be replaced with something waaay better# But Works
 
-#def Chunks(FI, FO, ORG = 'Chunk', CS):
-	#     with open(FI, 'r') as File:
-	#     	Read = File.readline()
-	#     	ToWrite = []
-	#     	Length = 0
-	#     	Counter = 0
 
-	#     	while Read:
-	#         	ToWrite.append(Read)
-	#        	 Length += len(Read)-1
-	#         if Length > CS:
-	#             with open(FO + ORG + '|{}'.format(Counter) + '.fa', 'w') as o:
-	#                 o.write(''.join(ToWrite))
-	#                 Counter += 1
-	#                 ToWrite = []
-	#                 Length = 0
-	#         Read = File.readline()
-	#     with open(FO + ORG + '|{}'.format(Counter) + '.fa', 'w') as o:
-	#         o.write(''.join(ToWrite))# Currently causes errors due to defined names
+def Chunks(FI, FO, CS, ORG = 'Chunk'):
+	with open(FI, 'r') as File:
+		Read = File.readline()
+		ToWrite = []
+		Length = 0
+		Counter = 0
+
+		while Read:
+			ToWrite.append(Read)
+			Length += len(Read)-1
+		if Length > CS:
+			with open(FO + ORG + '|{}'.format(Counter) + '.fa', 'w') as o:
+				o.write(''.join(ToWrite))
+				Counter += 1
+				ToWrite = []
+				Length = 0
+			Read = File.readline()
+		with open(FO + ORG + '|{}'.format(Counter) + '.fa', 'w') as o:
+			o.write(''.join(ToWrite))#Works
+
 
 def Surgical(FI, FO, SC, EC):
 	with open(FI, 'r') as Open:
@@ -243,7 +254,7 @@ def Surgical(FI, FO, SC, EC):
 		Find = OR2[SC:EC]
 		with open(f'{FO}snipped|{SC}:{EC}.fa', 'w') as Snipped:
 			print(Find + f'{FO}snipped|{SC}:{EC}.fa', 'w')
-			Snipped.write(Find)#Works
+			Snipped.write(Find) #Works
 
 
 def Joiner(FI, FO): #Not Working
