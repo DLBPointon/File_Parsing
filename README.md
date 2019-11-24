@@ -25,9 +25,11 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 			- __doc__ updated
 			- Script now follows pycodestyle
 
+24/11/19	- pylint score of 8.53
 
 FUTURE WORK TO BE IMPLIMENTED
 			- Each function now has a different saving scheme (temporary
 			  scheme) to differentiate the results of each function (will add a file system to better organise this).
 			- Fix Joiner Func
 			- Create better Entry
+			- Reduce false errors
