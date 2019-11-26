@@ -13,7 +13,7 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 			- Entry will be re-written entirely and read_fasta removed.
 
 22/11/19	- Chunk function fixed
-				- Arguments with default values (e.g. ch = 1) must be last in required arguments.
+			- Arguments with default values (e.g. ch = 1) must be last in required arguments.
 			- __doc__ updated for correct grammar and more consistency.
 			- Entry func not yet fixed
 			- Joiner func not yet fixed
@@ -26,6 +26,15 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 			- Script now follows pycodestyle
 
 24/11/19	- pylint score of 8.53
+
+26/11/19	- functions renamed for better distinction
+			- pycodestyle compliant and pylint score of 8.25
+			- Joinerfunction now works
+			- os module replaced with glob2 module
+			- __doc__ updated with joiner saving scheme
+			- small corections to examples and -j calling
+			- -j made useful
+			- README updated
 
 FUTURE WORK TO BE IMPLIMENTED
 			- Each function now has a different saving scheme (temporary
