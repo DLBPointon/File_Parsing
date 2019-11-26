@@ -39,6 +39,5 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 FUTURE WORK TO BE IMPLIMENTED
 			- Each function now has a different saving scheme (temporary
 			  scheme) to differentiate the results of each function (will add a file system to better organise this).
-			- Fix Joiner Func
 			- Create better Entry
 			- Reduce false errors
