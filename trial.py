@@ -16,16 +16,16 @@ entryfunction Function is called when -FI, -FO and -en are entered.
      Entries are header and sequence pairs.
   -  Example Input:
 
-     'python trial.py -FI ~Skynet/Desktop/FileOfInterest
-     -FO ~Skynet/Desktop/SaveDir -en 100'
+     'python trial.py -FI '~Skynet/Desktop/FileOfInterest'
+     -FO '~Skynet/Desktop/SaveDir' -en 100'
 -------------------------------------------------------------
 chunkfunction Function is called when -FI, -FO and -ch are entered.
   -  This will split a file into -ch defined number of base
      pairs per proceduraly generated file.
   -  Example Input:
 
-     'python trial.py -FI ~Replicator/Desktop/FileOfInterest
-     -FO ~Replicator/Desktop/SaveDir -org Asuran -ch 100000'
+     'python trial.py -FI '~Replicator/Desktop/FileOfInterest'
+     -FO '~Replicator/Desktop/SaveDir' -org Asuran -ch 100000'
 -------------------------------------------------------------
 surgicalfunction Function is called when -FI, -FO, -sc and -ec are
      entered.
@@ -34,8 +34,8 @@ surgicalfunction Function is called when -FI, -FO, -sc and -ec are
      A file will be produced.
   -  Example Input:
 
-     'python trial.py -FI ~R2D2/Desktop/FileOfInterest
-     -FO ~R2D2/Desktop/SaveDir -sc 100000 -ec 150000'
+     'python trial.py -FI '~R2D2/Desktop/FileOfInterest'
+     -FO '~R2D2/Desktop/SaveDir' -sc 100000 -ec 150000'
 -------------------------------------------------------------
 joinerfunction Function is called when only -FI and -FO are entered.
   -  This will concatenate a directories worth of files into
@@ -44,37 +44,42 @@ joinerfunction Function is called when only -FI and -FO are entered.
      intended use rather at a file of use.
   -  Example Input:
 
-     'python trial.py -FI ~Hal9000/Desktop/DirOfInterest
-     -FO ~Hal9000/Desktop/SaveDir'
+     'python trial.py -FI '~Hal9000/Desktop/DirOfInterest'
+     -FO '~Hal9000/Desktop/SaveDir' -j Name'
+     Name is your chosen naming scheme.
 -------------------------------------------------------------
 ALL FUNCTIONS
   -  When you need everything done and now. This will require
      all args in a specific order:
+     Joiner will not be needed in this case.
   -  Order:
      -FI -FO -en -org -ch -sc -ec
   -  Example Input:
 
-     'python trial.py -FI ~Ultron/Desktop/DirOfInterest
-     -FO ~Ultron/Desktop/SaveDir -en 100 -org Tony -ch 100000
+     'python trial.py -FI '~Ultron/Desktop/DirOfInterest'
+     -FO '~Ultron/Desktop/SaveDir' -en 100 -org Tony -ch 100000
      -sc 125000 -ec 150000'
 -------------------------------------------------------------
 FILE Nomenclature - Uses the examples above
   -  entryfunction - Files returned as:
        1.fa, 2.fa, 3.fa, 4.fa, 5.fa... etc
+
   -  chunkfunction - Files returned as:
        Asuran|1.fa, Asuran|2.fa, Asuran|3.fa
+
   -  surgicalfunction - Files returned as:
        snipped|100000/150000.fa
+
   -  joinerfunction - Files returned as:
-       Not Finished
+       jointfiles.fa
 
 -------------------------------------------------------------
            By Damon-Lee Pointon
 """
-import os
 import sys
 import argparse
 import textwrap
+import glob2
 
 
 def parse_command_args(args=sys.argv[1:]):
@@ -90,7 +95,7 @@ def parse_command_args(args=sys.argv[1:]):
                                      description=textwrap.dedent(__doc__))
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='%(prog)s Beta 3.0')
+                        version='%(prog)s Beta 4.0')
     parser.add_argument('-FI', '--FileInput',
                         type=str,
                         action='store',
@@ -130,6 +135,7 @@ def parse_command_args(args=sys.argv[1:]):
                         dest='EN')
     parser.add_argument('-j', '--joinerfunction',
                         action='store',
+                        type=str,
                         help='A non functional that specifies joinerfunction',
                         dest='J')
     options = parser.parse_args(args)
@@ -148,46 +154,39 @@ def main():
     aFI = sys.argv[2]
     aFO = sys.argv[4]
     for arg in sys.argv:
-        if arg == '-FI' and '-FO':
 
-            if arg == '-en':
-                entryfunction(aFI, aFO, int(sys.argv[6]))
-                if len(sys.argv[1:]) != 6:
-                    print('Check the number of args, somethings not right')
-                    sys.exit(0)
+        if arg == '-en':
+            entryfunction(aFI, aFO, int(sys.argv[6]))
+            if len(sys.argv[1:]) != 6:
+                print('Check the number of args, somethings not right')
+                sys.exit(0)
 
-            elif arg == '-ch':
-                chunkfunction(aFI, aFO, sys.argv[6], int(sys.argv[8]))
-                if len(sys.argv[1:]) != 8:
-                    print('Check your number of args, somethings not right')
-                    sys.exit(0)
+        elif arg == '-ch':
+            chunkfunction(aFI, aFO, sys.argv[6], int(sys.argv[8]))
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
 
-            elif arg == '-sc':
-                surgicalfunction(aFI, aFO, int(sys.argv[6]), int(sys.argv[8]))
-                if len(sys.argv[1:]) != 8:
-                    print('Check your number of args, somethings not right')
-                    sys.exit(0)
+        elif arg == '-sc':
+            surgicalfunction(aFI, aFO, int(sys.argv[6]), int(sys.argv[8]))
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
 
-            elif arg == '-j':
-                joinerfunction(aFI, aFO)
-                if len(sys.argv[1:]) != 4:
-                    print('Check your number of args, somethings not right')
-                    sys.exit(0)
+        elif arg == '-j':
+            joinerfunction(aFI, aFO, sys.argv[6])
+            if len(sys.argv[1:]) != 6:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
 
-            elif len(arg) == 14:
-                entryfunction(aFI, aFO, int(sys.argv[6]))
-                chunkfunction(aFI, aFO, sys.argv[8], int(sys.argv[10]))
-                surgicalfunction(aFI, aFO, int(sys.argv[12]), int(sys.argv[14]))
-                joinerfunction(aFI, aFO)
-                if len(sys.argv[1:]) != 14:
-                    print('Check your number of args, somethings not right.')
-                    print('Calling all funs requires a specific order')
-                    sys.exit(0)
-
-        else:
-            print('Where are -FI (FileInput) and -FO (FileOutPut) flags')
-            print(arg)
-            sys.exit(0)
+        elif len(arg) == 14:
+            entryfunction(aFI, aFO, int(sys.argv[6]))
+            chunkfunction(aFI, aFO, sys.argv[8], int(sys.argv[10]))
+            surgicalfunction(aFI, aFO, int(sys.argv[12]), int(sys.argv[14]))
+            if len(sys.argv[1:]) != 14:
+                print('Check your number of args, somethings not right.')
+                print('Calling all funs requires a specific order')
+                sys.exit(0)
 
 
 def read_fasta(filetoparse):  # Works as part of entryfunction
@@ -237,7 +236,7 @@ def entryfunction(FI, FO, EN=1):  # <- Works but needs a more ellegant solution
             print('Give me a second to load files')
 
 
-def chunkfunction(FI, FO, CS, ORG='chunk'):  # Works
+def chunkfunction(FI, FO, CS, ORG='chunk'):
     """A function to split a file based on user defined bp per file"""
     with open(FI, 'r') as file:
         read = file.readline()
@@ -249,40 +248,35 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):  # Works
             towrite.append(read)
             length += len(read)-1
         if length > CS:
-            with open(FO + ORG + '|{}'.format(counter) + '.fa', 'w') as opened:
+            with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
                 length = 0
-        with open(FO + ORG + '|{}'.format(counter) + '.fa', 'w') as opened:
+        with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
             opened.write(''.join(towrite))
 
 
-def surgicalfunction(FI, FO, SC, EC):  # Works
+def surgicalfunction(FI, FO, SC, EC):
     """A function to find a specified index of """
     with open(FI, 'r') as opened:
         openread = opened.read()
         openread2 = openread.strip()
         find = openread2[SC:EC]
         with open(f'{FO}snipped|{SC}:{EC}.fa', 'w') as snipped:
-            print(find + f'{FO}snipped|{SC}:{EC}.fa', 'w')
+            print(f'Find your file at: \n {FO}snipped|{SC}:{EC}.fa')
             snipped.write(find)
 
 
-def joinerfunction(FI, FO):  # Not Working
+def joinerfunction(FI, FO, J):
     """A function to join all singular enteries into one multi-line fasta"""
-    total = []
-    counter = 0
+    filenames = glob2.glob(FI + '*.fa')
 
-    for file in os.listdir(FI):
-        if file.endswith('.fasta' or '.fa' or '.fna'):
-            fullpath = os.path.join(FO, file)
-            total.append(fullpath)
-            with open(FO + counter, 'w') as outfile:
-                for filename in total:
-                    with open(filename, 'r') as infile:
-                        for line in infile:
-                            outfile.write(line)
+    with open(f'{FO}{J}.fa', 'w') as outfile:
+        for file in filenames:
+            with open(file) as infile:
+                outfile.write(infile.read(5000)+'\n')
+# Beleive it will fail for large files read(5000) should stop that
 
 
 if __name__ == '__main__':
