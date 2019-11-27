@@ -26,6 +26,8 @@ chunkfunction Function is called when -FI, -FO and -ch are entered.
 
      'python trial.py -FI '~Replicator/Desktop/FileOfInterest'
      -FO '~Replicator/Desktop/SaveDir' -org Asuran -ch 100000'
+
+     Please Note, small file cause an entryfunction effect.
 -------------------------------------------------------------
 surgicalfunction Function is called when -FI, -FO, -sc and -ec are
      entered.
@@ -108,7 +110,7 @@ def parse_command_args(args=sys.argv[1:]):
                         help='Output Directory',
                         dest="FO",
                         required=True)
-    parser.add_argument('-ch', '--ChunkSize',
+    parser.add_argument('-cs', '--ChunkSize',
                         action='store',
                         type=str,
                         help='Base-pair length of chunk per file',
@@ -161,8 +163,8 @@ def main():
                 print('Check the number of args, somethings not right')
                 sys.exit(0)
 
-        elif arg == '-ch':
-            chunkfunction(aFI, aFO, sys.argv[6], int(sys.argv[8]))
+        elif arg == '-cs':
+            chunkfunction(aFI, aFO, int(sys.argv[6]), sys.argv[8])
             if len(sys.argv[1:]) != 8:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
@@ -189,7 +191,7 @@ def main():
                 sys.exit(0)
 
 
-def read_fasta(filetoparse):  # Works as part of entryfunction
+def read_fasta(filetoparse):
     """A function which opens and splits a fasta into name and seq"""
     name, seq = None, []
     for line in filetoparse:
@@ -204,7 +206,7 @@ def read_fasta(filetoparse):  # Works as part of entryfunction
         yield (name, ''.join(seq))
 
 
-def entryfunction(FI, FO, EN=1):  # <- Works but needs a more ellegant solution
+def entryfunction(FI, FO, EN=1):
     """The entryfunction function splits a FASTA file into a user defined
     number of entries per file"""
     count = 0
@@ -220,17 +222,18 @@ def entryfunction(FI, FO, EN=1):  # <- Works but needs a more ellegant solution
             if count == EN:
                 filecounter += 1
 
-                with open(FO + str(filecounter) + '.fa', 'w') as done:
+                with open(f'{FO}{filecounter}.fa', 'w') as done:
+                    print(f'Find your file at: \n {FO}{count}.fa')
                     for idss, sequence in entry:
-                        done.write(idss + '\n' + sequence + '\n\n')
+                        done.write(f'{idss} \n {sequence} \n')
 
                     count = 0
                     entry = []
 
         filecounter += 1
-        with open(FO + str(filecounter) + '.fa', 'w') as done:
+        with open(f'{FO}{filecounter}.fa', 'w') as done:
             for idss, sequence in entry:
-                done.write(idss + '\n' + sequence + '\n\n')
+                done.write(f'{idss} \n {sequence} \n')
 
             entry = []
             print('Give me a second to load files')
@@ -238,23 +241,30 @@ def entryfunction(FI, FO, EN=1):  # <- Works but needs a more ellegant solution
 
 def chunkfunction(FI, FO, CS, ORG='chunk'):
     """A function to split a file based on user defined bp per file"""
-    with open(FI, 'r') as file:
-        read = file.readline()
-        towrite = []
-        length = 0
-        counter = 0
+    towrite = []
+    length = 0
+    counter = 0
 
-        while read:
-            towrite.append(read)
-            length += len(read)-1
-        if length > CS:
+    file = open(FI, 'r')
+    read = file.readline()
+
+    while read:
+        towrite.append(read)
+        length += len(read)
+        if length >= CS:
             with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
+                print(f'Find your file at: \n {FO}{ORG}.fa')
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
                 length = 0
-        with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
-            opened.write(''.join(towrite))
+
+        read = file.readline()
+    with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
+        opened.write(''.join(towrite))
+        print(f'Find your file at: \n {FO}{ORG}.fa')
+        towrite = []
+        length = 0
 
 
 def surgicalfunction(FI, FO, SC, EC):
@@ -276,6 +286,7 @@ def joinerfunction(FI, FO, J):
         for file in filenames:
             with open(file) as infile:
                 outfile.write(infile.read(5000)+'\n')
+                print(f'Find your file at: \n {FO}{J}.fa')
 # Beleive it will fail for large files read(5000) should stop that
 
 
