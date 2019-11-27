@@ -36,8 +36,16 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 			- -j made useful
 			- README updated
 
+27/11/19	- f string standardization across script
+			- chunkfunction fixed (previously thought working), small files will be chunked into entries
+			- __doc__ updated to show above
+			- pycodestyle compliant and pylint score of 8.56 (due to style choices for argument names)
+			- README updated
+
+
 FUTURE WORK TO BE IMPLIMENTED
 			- Each function now has a different saving scheme (temporary
 			  scheme) to differentiate the results of each function (will add a file system to better organise this).
 			- Create better Entry
 			- Reduce false errors
+			- make script executional
