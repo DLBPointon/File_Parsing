@@ -1,4 +1,4 @@
-#![REPLACE ME WITH THE RESULTS OF WHICH PYTHON]
+#!/usr/bin/python
 
 """
 -------------------------------------------------------------
