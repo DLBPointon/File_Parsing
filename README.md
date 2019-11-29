@@ -9,7 +9,7 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 
 ## Change-log
 
-14/11/19
+### 14/11/19
 - arg.parse command structure completely changed from sub-parsers to standard parsers.
 - __doc__ has been revamped by adding examples and a more
   in-depth explanation.
@@ -20,7 +20,7 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 - Joiner does not work.
 - Entry will be re-written entirely and read_fasta removed.
 
-22/11/19	
+### 22/11/19	
 - Chunk function fixed
 - Arguments with default values (e.g. ch = 1) must be last in required arguments.
 - __doc__ updated for correct grammar and more consistency.
@@ -30,15 +30,15 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 - introduced the arg -j to allow for a more efficient selection
   of function
 
-23/11/19	
+### 23/11/19	
 - Entry func works
 - __doc__ updated
 - Script now follows pycodestyle
 
-24/11/19	
+### 24/11/19	
 - pylint score of 8.53
 
-26/11/19	
+### 26/11/19	
 - functions renamed for better distinction
 - pycodestyle compliant and pylint score of 8.25
 - Joinerfunction now works
@@ -48,14 +48,14 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 - -j made useful
 - README updated
 
-27/11/19	
+### 27/11/19	
 - f string standardization across script
 - chunkfunction fixed (previously thought working), small files will be chunked into entries
 - __doc__ updated to show above
 - pycodestyle compliant and pylint score of 8.56 (due to style choices for argument names)
 - README updated
 
-28/11/19	
+### 28/11/19	
 - Added clarification to shebang management
 - will require the running 'which python' in command line and then Copy Pasting this to replace 
 [REPLACE ME WITH THE RESULTS OF WHICH PYTHON] after #! (shebang header)
@@ -63,7 +63,7 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 - trial.py -> fastaparsing.py
 - fileparse.py -> originalattempt.py
 
-##FUTURE WORK TO BE IMPLIMENTED
+## FUTURE WORK TO BE IMPLIMENTED
 - Each function now has a different saving scheme (temporary
   scheme) to differentiate the results of each function (will add a file system to better organise this).
 - Create better Entry
