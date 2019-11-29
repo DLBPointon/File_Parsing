@@ -222,18 +222,18 @@ def entryfunction(FI, FO, EN=1):
             if count == EN:
                 filecounter += 1
 
-                with open(f'{FO}{filecounter}.fa', 'w') as done:
-                    print(f'Find your file at: \n {0}{1}.fa'.format(FO, count))
+                with open('{0}{1}.fa'.format(FO, filecounter), 'w') as done:
+                    print('Find your file at: \n {0}{1}.fa'.format(FO, count))
                     for idss, sequence in entry:
-                        done.write(f'{idss} \n {sequence} \n')
+                        done.write('{0} \n {1} \n'.format(idss, sequence))
 
                     count = 0
                     entry = []
 
         filecounter += 1
-        with open(f'{FO}{filecounter}.fa', 'w') as done:
+        with open('{0}{1}.fa'.format(FO, filecounter), 'w') as done:
             for idss, sequence in entry:
-                done.write(f'{idss} \n {sequence} \n')
+                done.write('{0} \n {1} \n'.format(idss, sequence))
 
             entry = []
             print('Give me a second to load files')
@@ -252,17 +252,17 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         towrite.append(read)
         length += len(read)
         if length >= CS:
-            with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
-                print(f'Find your file at: \n {FO}{ORG}.fa')
+            with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
+                print('Find your file at: \n {O}{1}.fa'.format(FO, ORG))
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
                 length = 0
 
         read = file.readline()
-    with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
+    with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
         opened.write(''.join(towrite))
-        print(f'Find your file at: \n {FO}{ORG}.fa')
+        print('Find your file at: \n {O}{1}.fa'.format(FO, ORG))
         towrite = []
         length = 0
 
@@ -273,8 +273,8 @@ def surgicalfunction(FI, FO, SC, EC):
         openread = opened.read()
         openread2 = openread.strip()
         find = openread2[SC:EC]
-        with open(f'{FO}snipped|{SC}:{EC}.fa', 'w') as snipped:
-            print(f'Find your file at: \n {FO}snipped|{SC}:{EC}.fa')
+        with open('{O}snipped|{1}:{2}.fa'.format(FO, SC, EC), 'w') as snipped:
+            print('Find your file at: \n {O}snipped|{1}:{2}.fa'.format(FO, SC, EC))
             snipped.write(find)
 
 
@@ -282,11 +282,11 @@ def joinerfunction(FI, FO, J):
     """A function to join all singular enteries into one multi-line fasta"""
     filenames = glob2.glob(FI + '*.fa')
 
-    with open(f'{FO}{J}.fa', 'w') as outfile:
+    with open('{O}{1}.fa'.format(FO, J), 'w') as outfile:
         for file in filenames:
             with open(file) as infile:
                 outfile.write(infile.read(5000)+'\n')
-                print(f'Find your file at: \n {FO}{J}.fa')
+                print('Find your file at: \n {0}{1}.fa'.format(FO, J))
 # Beleive it will fail for large files read(5000) should stop that
 
 
