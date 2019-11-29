@@ -6,7 +6,7 @@ The fastaparsing.py file is the main object of this repository. Due to the locat
 
 To use the ./ of script usage then you will be requirefd to insert the path of your python env into the shebang header (#!).
 
-This can be acheived with typing '$ which python' into the commandline. The full path of this one line will then need to replace the [REPLACE ME WITH THE RESULTS OF WHICH PYTHON] found after the shebang in the first line of fastaparsing.py script.
+This can be acheived with typing '$ which python' into the commandline. The full path of this one line will then need to replace the /usr/bin/python found after the shebang in the first line of fastaparsing.py script. This is a typical default python env location.
 
 Opening of the script via your usual editor (nano, vim or sublime) is possible via the command line.
 
