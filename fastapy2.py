@@ -81,7 +81,7 @@ FILE Nomenclature - Uses the examples above
 import sys
 import argparse
 import textwrap
-import glob2
+#import glob2
 
 
 def parse_command_args(args=sys.argv[1:]):
@@ -278,15 +278,15 @@ def surgicalfunction(FI, FO, SC, EC):
             snipped.write(find)
 
 
-def joinerfunction(FI, FO, J):
-    """A function to join all singular enteries into one multi-line fasta"""
-    filenames = glob2.glob(FI + '*.fa')
+# def joinerfunction(FI, FO, J):
+#     """A function to join all singular enteries into one multi-line fasta"""
+#     filenames = glob2.glob(FI + '*.fa')
 
-    with open('{O}{1}.fa'.format(FO, J), 'w') as outfile:
-        for file in filenames:
-            with open(file) as infile:
-                outfile.write(infile.read(5000)+'\n')
-                print('Find your file at: \n {0}{1}.fa'.format(FO, J))
+#     with open('{O}{1}.fa'.format(FO, J), 'w') as outfile:
+#         for file in filenames:
+#             with open(file) as infile:
+#                 outfile.write(infile.read(5000)+'\n')
+#                 print('Find your file at: \n {0}{1}.fa'.format(FO, J))
 # Beleive it will fail for large files read(5000) should stop that
 
 
