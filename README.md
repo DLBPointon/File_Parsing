@@ -3,8 +3,11 @@ A FASTA parsing script created for use at Sanger and during the BSc Bioinformati
 
 ## Instructions
 The fastaparsing.py file is the main object of this repository. Due to the location of many peoples python environment being in odd places there is a one time extra bit of work you need to perform unless your ok with using scripts with: '$ python script'.
+
 To use the ./ of script usage then you will be requirefd to insert the path of your python env into the shebang header (#!).
+
 This can be acheived with typing '$ which python' into the commandline. The full path of this one line will then need to replace the [REPLACE ME WITH THE RESULTS OF WHICH PYTHON] found after the shebang in the first line of fastaparsing.py script.
+
 Opening of the script via your usual editor (nano, vim or sublime) is possible via the command line.
 
 ## Change-log
