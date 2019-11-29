@@ -144,7 +144,7 @@ def parse_command_args(args=sys.argv[1:]):
     return options
 
 
-print(f'You have entered: \n{0}'.format(sys.argv[1:]))
+print('You have entered: \n{0}'.format(sys.argv[1:]))
 
 
 def main():
