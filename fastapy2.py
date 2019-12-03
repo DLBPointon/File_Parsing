@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 """
 -------------------------------------------------------------
@@ -50,17 +50,6 @@ joinerfunction Function is called when only -FI and -FO are entered.
      -FO '~Hal9000/Desktop/SaveDir' -j Name'
      Name is your chosen naming scheme.
 -------------------------------------------------------------
-ALL FUNCTIONS
-  -  When you need everything done and now. This will require
-     all args in a specific order:
-     Joiner will not be needed in this case.
-  -  Order:
-     -FI -FO -en -org -ch -sc -ec
-  -  Example Input:
-
-     'python trial.py -FI '~Ultron/Desktop/DirOfInterest'
-     -FO '~Ultron/Desktop/SaveDir' -en 100 -org Tony -ch 100000
-     -sc 125000 -ec 150000'
 -------------------------------------------------------------
 FILE Nomenclature - Uses the examples above
   -  entryfunction - Files returned as:
@@ -140,8 +129,8 @@ def parse_command_args(args=sys.argv[1:]):
                         type=str,
                         help='A non functional that specifies joinerfunction',
                         dest='J')
-    options = parser.parse_args(args)
-    return options
+    op = parser.parse_args(args)
+    return op
 
 
 print('You have entered: \n{0}'.format(sys.argv[1:]))
@@ -152,43 +141,35 @@ def main():
     A for loop for argument checking and
     function calling
     """
-    options = parse_command_args()
-    aFI = sys.argv[2]
-    aFO = sys.argv[4]
-    for arg in sys.argv:
+    op = parse_command_args()
+    
+    if op.EN:
+        entryfunction(op.FI, op.FO, op.EN)
+        print(f'entryfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 6:
+            print('Check the number of args, somethings not right')
+            sys.exit(0)
 
-        if arg == '-en':
-            entryfunction(aFI, aFO, int(sys.argv[6]))
-            if len(sys.argv[1:]) != 6:
-                print('Check the number of args, somethings not right')
-                sys.exit(0)
+    if op.CS:
+        chunkfunction(op.FI, op.FO, op.CS, op.ORG)
+        print(f'chunkfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 8:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
-        elif arg == '-cs':
-            chunkfunction(aFI, aFO, int(sys.argv[6]), sys.argv[8])
-            if len(sys.argv[1:]) != 8:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
+    if op.SC and op.EC:
+        surgicalfunction(op.FI, op.FO, op.SC, op.EC)
+        print(f'surgicalfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 8:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
-        elif arg == '-sc':
-            surgicalfunction(aFI, aFO, int(sys.argv[6]), int(sys.argv[8]))
-            if len(sys.argv[1:]) != 8:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
-
-        elif arg == '-j':
-            joinerfunction(aFI, aFO, sys.argv[6])
-            if len(sys.argv[1:]) != 6:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
-
-        elif len(arg) == 14:
-            entryfunction(aFI, aFO, int(sys.argv[6]))
-            chunkfunction(aFI, aFO, sys.argv[8], int(sys.argv[10]))
-            surgicalfunction(aFI, aFO, int(sys.argv[12]), int(sys.argv[14]))
-            if len(sys.argv[1:]) != 14:
-                print('Check your number of args, somethings not right.')
-                print('Calling all funs requires a specific order')
-                sys.exit(0)
+    if op.J:
+        joinerfunction(op.FI, op.FO, op.J)
+        print(f'joinerfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 6:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
 
 def read_fasta(filetoparse):
@@ -223,17 +204,17 @@ def entryfunction(FI, FO, EN=1):
                 filecounter += 1
 
                 with open('{0}{1}.fa'.format(FO, filecounter), 'w') as done:
-                    print('Find your file at: \n {0}{1}.fa'.format(FO, count))
+                    print('Find your file at: \n {0}entry{1}.fa'.format(FO, filecounter))
                     for idss, sequence in entry:
-                        done.write('{0} \n {1} \n'.format(idss, sequence))
+                        done.write('{0}{1} \n'.format(idss, sequence))
 
                     count = 0
                     entry = []
 
         filecounter += 1
-        with open('{0}{1}.fa'.format(FO, filecounter), 'w') as done:
+        with open('{0}entry{1}.fa'.format(FO, filecounter), 'w') as done:
             for idss, sequence in entry:
-                done.write('{0} \n {1} \n'.format(idss, sequence))
+                done.write('{0}{1} \n'.format(idss, sequence))
 
             entry = []
             print('Give me a second to load files')
