@@ -2,7 +2,7 @@
 
 """
 -------------------------------------------------------------
-            File Parsing
+                      ßFile Parsing
 -------------------------------------------------------------
 This is my program to take an input file and produce outputs
 based on the function requested by the User.
@@ -144,9 +144,6 @@ def parse_command_args(args=sys.argv[1:]):
     return options
 
 
-print(f'You have entered: \n{sys.argv[1:]}')
-
-
 def main():
     """
     A for loop for argument checking and
@@ -159,24 +156,28 @@ def main():
 
         if arg == '-en':
             entryfunction(aFI, aFO, int(sys.argv[6]))
+            print(f'entryfunction selected \n{sys.argv[1:]}')
             if len(sys.argv[1:]) != 6:
                 print('Check the number of args, somethings not right')
                 sys.exit(0)
 
         elif arg == '-cs':
             chunkfunction(aFI, aFO, int(sys.argv[6]), sys.argv[8])
+            print(f'chunkfunction selected \n{sys.argv[1:]}')
             if len(sys.argv[1:]) != 8:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
 
         elif arg == '-sc':
             surgicalfunction(aFI, aFO, int(sys.argv[6]), int(sys.argv[8]))
+            print(f'surgicalfunction selected \n{sys.argv[1:]}')
             if len(sys.argv[1:]) != 8:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
 
         elif arg == '-j':
             joinerfunction(aFI, aFO, sys.argv[6])
+            print(f'joinerfunction selected \n{sys.argv[1:]}')
             if len(sys.argv[1:]) != 6:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
@@ -185,6 +186,7 @@ def main():
             entryfunction(aFI, aFO, int(sys.argv[6]))
             chunkfunction(aFI, aFO, sys.argv[8], int(sys.argv[10]))
             surgicalfunction(aFI, aFO, int(sys.argv[12]), int(sys.argv[14]))
+            print(f'entry, chunk and surgical all selected \n{sys.argv[1:]}')
             if len(sys.argv[1:]) != 14:
                 print('Check your number of args, somethings not right.')
                 print('Calling all funs requires a specific order')
@@ -212,7 +214,7 @@ def entryfunction(FI, FO, EN=1):
     count = 0
     filecounter = 0
     entry = []
-
+    print('Give me a second to load files')
     with open(FI) as filetoparse:
         for name, seq in read_fasta(filetoparse):
             nameseq = name, seq
@@ -223,20 +225,20 @@ def entryfunction(FI, FO, EN=1):
                 filecounter += 1
 
                 with open(f'{FO}{filecounter}.fa', 'w') as done:
-                    print(f'Find your file at: \n {FO}{count}.fa')
+                    print(f'Find your file at: \n {FO}{filecounter}.fa')
                     for idss, sequence in entry:
-                        done.write(f'{idss} \n {sequence} \n')
+                        done.write(f'{idss} {sequence} \n\n')
 
                     count = 0
                     entry = []
 
         filecounter += 1
         with open(f'{FO}{filecounter}.fa', 'w') as done:
+            print(f'Find your file at: \n {FO}{filecounter}.fa')
             for idss, sequence in entry:
-                done.write(f'{idss} \n {sequence} \n')
+                done.write(f'{idss} {sequence} \n\n')
 
             entry = []
-            print('Give me a second to load files')
 
 
 def chunkfunction(FI, FO, CS, ORG='chunk'):
@@ -253,18 +255,19 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         length += len(read)
         if length >= CS:
             with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
-                print(f'Find your file at: \n {FO}{ORG}.fa')
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
                 length = 0
+                print(f'Find your file at: \n {FO}{ORG}{counter}.fa')
 
         read = file.readline()
     with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
         opened.write(''.join(towrite))
-        print(f'Find your file at: \n {FO}{ORG}.fa')
         towrite = []
         length = 0
+        print(f'Find your file at: \n {FO}{ORG}{counter}.fa')
+    file.close()
 
 
 def surgicalfunction(FI, FO, SC, EC):
@@ -274,8 +277,8 @@ def surgicalfunction(FI, FO, SC, EC):
         openread2 = openread.strip()
         find = openread2[SC:EC]
         with open(f'{FO}snipped|{SC}:{EC}.fa', 'w') as snipped:
-            print(f'Find your file at: \n {FO}snipped|{SC}:{EC}.fa')
             snipped.write(find)
+            print(f'Find your file at: \n {FO}snipped|{SC}:{EC}.fa')
 
 
 def joinerfunction(FI, FO, J):
@@ -285,8 +288,9 @@ def joinerfunction(FI, FO, J):
     with open(f'{FO}{J}.fa', 'w') as outfile:
         for file in filenames:
             with open(file) as infile:
-                outfile.write(infile.read(5000)+'\n')
-                print(f'Find your file at: \n {FO}{J}.fa')
+                for line in infile:
+                    outfile.write(line)
+    print(f'Find your file at: \n {FO}{J}.fa')
 # Beleive it will fail for large files read(5000) should stop that
 
 
