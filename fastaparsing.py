@@ -50,17 +50,13 @@ joinerfunction Function is called when only -FI and -FO are entered.
      -FO '~Hal9000/Desktop/SaveDir' -j Name'
      Name is your chosen naming scheme.
 -------------------------------------------------------------
-ALL FUNCTIONS
-  -  When you need everything done and now. This will require
-     all args in a specific order:
-     Joiner will not be needed in this case.
-  -  Order:
-     -FI -FO -en -org -ch -sc -ec
-  -  Example Input:
-
-     'python trial.py -FI '~Ultron/Desktop/DirOfInterest'
-     -FO '~Ultron/Desktop/SaveDir' -en 100 -org Tony -ch 100000
-     -sc 125000 -ec 150000'
+NOTES
+  - Running joinerfunction will concatenate all fa files in
+  the chosen directory.
+    - ADVICED THAT YOU RUN THIS ON THE OUTPUT OF 
+    entryfunction or clearly defined files.
+    - Output of joinerfunction with an input from 
+    chunkfunction created badly formatted data.
 -------------------------------------------------------------
 FILE Nomenclature - Uses the examples above
   -  entryfunction - Files returned as:
@@ -182,16 +178,6 @@ def main():
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
 
-        elif len(arg) == 14:
-            entryfunction(aFI, aFO, int(sys.argv[6]))
-            chunkfunction(aFI, aFO, sys.argv[8], int(sys.argv[10]))
-            surgicalfunction(aFI, aFO, int(sys.argv[12]), int(sys.argv[14]))
-            print(f'entry, chunk and surgical all selected \n{sys.argv[1:]}')
-            if len(sys.argv[1:]) != 14:
-                print('Check your number of args, somethings not right.')
-                print('Calling all funs requires a specific order')
-                sys.exit(0)
-
 
 def read_fasta(filetoparse):
     """A function which opens and splits a fasta into name and seq"""
@@ -224,8 +210,8 @@ def entryfunction(FI, FO, EN=1):
             if count == EN:
                 filecounter += 1
 
-                with open(f'{FO}{filecounter}.fa', 'w') as done:
-                    print(f'Find your file at: \n {FO}{filecounter}.fa')
+                with open(f'{FO}entry{filecounter}.fa', 'w') as done:
+                    print(f'Find your file at: \n {FO}entry{filecounter}.fa')
                     for idss, sequence in entry:
                         done.write(f'{idss} {sequence} \n\n')
 
@@ -233,8 +219,8 @@ def entryfunction(FI, FO, EN=1):
                     entry = []
 
         filecounter += 1
-        with open(f'{FO}{filecounter}.fa', 'w') as done:
-            print(f'Find your file at: \n {FO}{filecounter}.fa')
+        with open(f'{FO}entry{filecounter}.fa', 'w') as done:
+            print(f'Find your file at: \n {FO}entry{filecounter}.fa')
             for idss, sequence in entry:
                 done.write(f'{idss} {sequence} \n\n')
 
