@@ -75,7 +75,7 @@ This will return the full user instructions for using this script, file nomencla
 - All functions confirmed working.
 - Use of large parameters on small files has caused some CPU overuse.
 - Fully executable.
-
+- Updated use of sys.argv[] to the arg.parse option.
 
 ## FUTURE WORK TO BE IMPLIMENTED
 - Each function now has a different saving scheme (temporary
