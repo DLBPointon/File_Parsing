@@ -2,13 +2,15 @@
 A FASTA parsing script created for use at Sanger and during the BSc Bioinformatics apprenticeship at ARU
 
 ## Instructions
-The fastaparsing.py file is the main object of this repository. Due to the location of many peoples python environment being in odd places there is a one time extra bit of work you need to perform unless your ok with using scripts with: '$ python script'.
+The fastaparsing.py file is the central object of this repo. The goal was to create a script which could:
+- Split a given multi-line FASTA into multiple files each containing a user-defined number of complete entries per file.
+- Chunk a given file into multiple files based on the user-defined number of base pairs. 
+- Surgical (snip), would make a new file with the contents of a slice, the slice would be controlled by the user defined start and end co-ordinates.
+- Joiner will concatenate all files in a given directory into one user-labelled file.
 
-To use the ./ of script usage then you will be requirefd to insert the path of your python env into the shebang header (#!).
+Once ready to use call the script with ./ (or your chosen method) fastaparsing.py (the file name) -h (the help function).
+This will return the full user instructions for using this script, file nomenclature and behaviours.
 
-This can be acheived with typing '$ which python' into the commandline. The full path of this one line will then need to replace the /usr/bin/python found after the shebang in the first line of fastaparsing.py script. This is a typical default python env location.
-
-Opening of the script via your usual editor (nano, vim or sublime) is possible via the command line.
 
 ## Change-log
 
@@ -66,9 +68,17 @@ Opening of the script via your usual editor (nano, vim or sublime) is possible v
 - trial.py -> fastaparsing.py
 - fileparse.py -> originalattempt.py
 
+### 3/12/19
+- shebang issues fixed with use of #!/usr/bin/env python, previous information was based on a incorrect understanding of shebangs.
+- Removed allfunction - due to complicated file structures being a result of splitting, reformatting and rejoining.
+- __doc__ reformatted to match said changes.
+- All functions confirmed working.
+- Use of large parameters on small files has caused some CPU overuse.
+- Fully executable.
+
+
 ## FUTURE WORK TO BE IMPLIMENTED
 - Each function now has a different saving scheme (temporary
   scheme) to differentiate the results of each function (will add a file system to better organise this).
 - Create better Entry
 - Reduce false errors
-- make script executional - half way there 
