@@ -136,8 +136,8 @@ def parse_command_args(args=sys.argv[1:]):
                         type=str,
                         help='A non functional that specifies joinerfunction',
                         dest='J')
-    options = parser.parse_args(args)
-    return options
+    op = parser.parse_args(args)
+    return op
 
 
 def main():
@@ -145,38 +145,35 @@ def main():
     A for loop for argument checking and
     function calling
     """
-    options = parse_command_args()
-    aFI = sys.argv[2]
-    aFO = sys.argv[4]
-    for arg in sys.argv:
+    op = parse_command_args()
+    
+    if op.EN:
+        entryfunction(op.FI, op.FO, op.EN)
+        print(f'entryfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 6:
+            print('Check the number of args, somethings not right')
+            sys.exit(0)
 
-        if arg == '-en':
-            entryfunction(aFI, aFO, int(sys.argv[6]))
-            print(f'entryfunction selected \n{sys.argv[1:]}')
-            if len(sys.argv[1:]) != 6:
-                print('Check the number of args, somethings not right')
-                sys.exit(0)
+    if op.CS:
+        chunkfunction(op.FI, op.FO, op.CS, op.ORG)
+        print(f'chunkfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 8:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
-        elif arg == '-cs':
-            chunkfunction(aFI, aFO, int(sys.argv[6]), sys.argv[8])
-            print(f'chunkfunction selected \n{sys.argv[1:]}')
-            if len(sys.argv[1:]) != 8:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
+    if op.SC and op.EC:
+        surgicalfunction(op.FI, op.FO, op.SC, op.EC)
+        print(f'surgicalfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 8:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
-        elif arg == '-sc':
-            surgicalfunction(aFI, aFO, int(sys.argv[6]), int(sys.argv[8]))
-            print(f'surgicalfunction selected \n{sys.argv[1:]}')
-            if len(sys.argv[1:]) != 8:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
-
-        elif arg == '-j':
-            joinerfunction(aFI, aFO, sys.argv[6])
-            print(f'joinerfunction selected \n{sys.argv[1:]}')
-            if len(sys.argv[1:]) != 6:
-                print('Check your number of args, somethings not right')
-                sys.exit(0)
+    if op.J:
+        joinerfunction(op.FI, op.FO, op.J)
+        print(f'joinerfunction selected \n{sys.argv[1:]}')
+        if len(sys.argv[1:]) != 6:
+            print('Check your number of args, somethings not right')
+            sys.exit(0)
 
 
 def read_fasta(filetoparse):
@@ -200,7 +197,6 @@ def entryfunction(FI, FO, EN=1):
     count = 0
     filecounter = 0
     entry = []
-    print('Give me a second to load files')
     with open(FI) as filetoparse:
         for name, seq in read_fasta(filetoparse):
             nameseq = name, seq
