@@ -2,7 +2,7 @@
 
 """
 -------------------------------------------------------------
-                      ßFile Parsing
+                      File Parsing
 -------------------------------------------------------------
 This is my program to take an input file and produce outputs
 based on the function requested by the User.
@@ -53,9 +53,9 @@ joinerfunction Function is called when only -FI and -FO are entered.
 NOTES
   - Running joinerfunction will concatenate all fa files in
   the chosen directory.
-    - ADVICED THAT YOU RUN THIS ON THE OUTPUT OF 
+    - ADVICED THAT YOU RUN THIS ON THE OUTPUT OF
     entryfunction or clearly defined files.
-    - Output of joinerfunction with an input from 
+    - Output of joinerfunction with an input from
     chunkfunction created badly formatted data.
 -------------------------------------------------------------
 FILE Nomenclature - Uses the examples above
@@ -77,6 +77,7 @@ FILE Nomenclature - Uses the examples above
 import sys
 import argparse
 import textwrap
+import os
 import glob2
 
 
@@ -136,8 +137,8 @@ def parse_command_args(args=sys.argv[1:]):
                         type=str,
                         help='A non functional that specifies joinerfunction',
                         dest='J')
-    op = parser.parse_args(args)
-    return op
+    option = parser.parse_args(args)
+    return option
 
 
 def main():
@@ -145,35 +146,50 @@ def main():
     A for loop for argument checking and
     function calling
     """
-    op = parse_command_args()
-    
-    if op.EN:
-        entryfunction(op.FI, op.FO, op.EN)
-        print(f'entryfunction selected \n{sys.argv[1:]}')
-        if len(sys.argv[1:]) != 6:
-            print('Check the number of args, somethings not right')
-            sys.exit(0)
+    directlist = ['/fastaparsed', '/fastaparsed/entries',
+                  '/fastaparsed/chunked', '/fastaparsed/surgical',
+                  '/fastaparsed/joined']
+    accessrights = 0o755
 
-    if op.CS:
-        chunkfunction(op.FI, op.FO, op.CS, op.ORG)
-        print(f'chunkfunction selected \n{sys.argv[1:]}')
-        if len(sys.argv[1:]) != 8:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+    option = parse_command_args()
 
-    if op.SC and op.EC:
-        surgicalfunction(op.FI, op.FO, op.SC, op.EC)
-        print(f'surgicalfunction selected \n{sys.argv[1:]}')
-        if len(sys.argv[1:]) != 8:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+    if option.FO:
+        for direct in directlist:
+            path = option.FO + direct
+            try:
+                os.makedirs(path, accessrights)
+            except OSError:
+                print(f'Creation of directory has failed at: {path}')
+            else:
+                print(f'Successfully created the directory path at: {path}')
 
-    if op.J:
-        joinerfunction(op.FI, op.FO, op.J)
-        print(f'joinerfunction selected \n{sys.argv[1:]}')
-        if len(sys.argv[1:]) != 6:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+        if option.EN:
+            entryfunction(option.FI, option.FO, option.EN)
+            print(f'entryfunction selected \n{sys.argv[1:]}')
+            if len(sys.argv[1:]) != 6:
+                print('Check the number of args, somethings not right')
+                sys.exit(0)
+
+        if option.CS:
+            chunkfunction(option.FI, option.FO, option.CS, option.ORG)
+            print(f'chunkfunction selected \n{sys.argv[1:]}')
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
+
+        if option.SC and option.EC:
+            surgicalfunction(option.FI, option.FO, option.SC, option.EC)
+            print(f'surgicalfunction selected \n{sys.argv[1:]}')
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
+
+        if option.J:
+            joinerfunction(option.FI, option.FO, option.J)
+            print(f'joinerfunction selected \n{sys.argv[1:]}')
+            if len(sys.argv[1:]) != 6:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
 
 
 def read_fasta(filetoparse):
@@ -197,6 +213,8 @@ def entryfunction(FI, FO, EN=1):
     count = 0
     filecounter = 0
     entry = []
+    FO += '/fastaparsed/entries/'
+
     with open(FI) as filetoparse:
         for name, seq in read_fasta(filetoparse):
             nameseq = name, seq
@@ -232,6 +250,8 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
     file = open(FI, 'r')
     read = file.readline()
 
+    FO += '/fastaparsed/chunked/'
+
     while read:
         towrite.append(read)
         length += len(read)
@@ -254,6 +274,8 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
 
 def surgicalfunction(FI, FO, SC, EC):
     """A function to find a specified index of """
+    FO += '/fastaparsed/surgical/'
+
     with open(FI, 'r') as opened:
         openread = opened.read()
         openread2 = openread.strip()
@@ -266,6 +288,7 @@ def surgicalfunction(FI, FO, SC, EC):
 def joinerfunction(FI, FO, J):
     """A function to join all singular enteries into one multi-line fasta"""
     filenames = glob2.glob(FI + '*.fa')
+    FO += '/fastaparsed/joined/'
 
     with open(f'{FO}{J}.fa', 'w') as outfile:
         for file in filenames:
