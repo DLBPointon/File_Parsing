@@ -77,8 +77,15 @@ This will return the full user instructions for using this script, file nomencla
 - Fully executable.
 - Updated use of sys.argv[] to the arg.parse option.
 
+### 6/12/19
+- Added a section of code to produce a file structure which sorts the produced files into their own folders.
+- False errors have been reduced in number by the slow editing of code to be consise.
+- pycodestyle compliant.
+- pylint score of 8.73 due to arg.names
+
 ## FUTURE WORK TO BE IMPLIMENTED
-- Each function now has a different saving scheme (temporary
-  scheme) to differentiate the results of each function (will add a file system to better organise this).
+- -Each function now has a different saving scheme (temporary
+  scheme) to differentiate the results of each function (will add a file system to better organise this)-
 - Create better Entry
-- Reduce false errors
+- -Reduce false errors-
+- New function to sort selections of files into user selected files.
