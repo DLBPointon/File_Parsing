@@ -296,7 +296,7 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         length += len(read)
         if length >= CS:
             with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
-                print('Find your file at: \n {O}{1}{2}.fa'.format(FO, ORG, counter))
+                print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
@@ -305,7 +305,7 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         read = file.readline()
     with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
         opened.write(''.join(towrite))
-        print('Find your file at: \n {O}{1}{2}.fa'.format(FO, ORG, counter))
+        print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
         towrite = []
         length = 0
 
@@ -318,8 +318,8 @@ def surgicalfunction(FI, FO, SC, EC):
         openread = opened.read()
         openread2 = openread.strip()
         find = openread2[SC:EC]
-        with open('{O}snipped|{1}:{2}.fa'.format(FO, SC, EC), 'w') as snipped:
-            print('Find your file at: \n {O}snipped|{1}:{2}.fa'.format(FO, SC, EC))
+        with open('{0}snipped|{1}:{2}.fa'.format(FO, SC, EC), 'w') as snipped:
+            print('Find your file at: \n {0}snipped|{1}:{2}.fa'.format(FO, SC, EC))
             snipped.write(find)
 
 
