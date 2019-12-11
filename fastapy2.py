@@ -194,28 +194,28 @@ def main():
 
         if option.EN:
             entryfunction(option.FI, option.FO, option.EN)
-            print('entryfunction selected \n{0}'.format(sys.argv[1:])
+            print('entryfunction selected \n{0}'.format(sys.argv[1:]))
             if len(sys.argv[1:]) != 6:
                 print('Check the number of args, somethings not right')
                 sys.exit(0)
 
         if option.CS:
             chunkfunction(option.FI, option.FO, option.CS, option.ORG)
-            print('chunkfunction selected \n{0}'.format(sys.argv[1:])
+            print('chunkfunction selected \n{0}'.format(sys.argv[1:]))
             if len(sys.argv[1:]) != 8:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
 
         if option.SC and option.EC:
             surgicalfunction(option.FI, option.FO, option.SC, option.EC)
-            print('surgicalfunction selected \n{0}'.format(sys.argv[1:])
+            print('surgicalfunction selected \n{0}'.format(sys.argv[1:]))
             if len(sys.argv[1:]) != 8:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
 
         if option.J:
             joinerfunction(option.FI, option.FO, option.J)
-            print('joinerfunction selected \n{0}'.format(sys.argv[1:])
+            print('joinerfunction selected \n{0}'.format(sys.argv[1:]))
             if len(sys.argv[1:]) != 6:
                 print('Check your number of args, somethings not right')
                 sys.exit(0)
