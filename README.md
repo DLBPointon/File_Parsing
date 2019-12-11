@@ -81,11 +81,20 @@ This will return the full user instructions for using this script, file nomencla
 - Added a section of code to produce a file structure which sorts the produced files into their own folders.
 - False errors have been reduced in number by the slow editing of code to be consise.
 - pycodestyle compliant.
-- pylint score of 8.73 due to arg.names
+- pylint score of 8.73 due to arg.names.
+
+### 11/12/19
+- Removed textwrap due to conflict with sanity checking.
+- Global __doc__ now the value of variable docstring so it can still be used as the scrpt help message.
+- Added sanity checkers for python version as well as module imports.
+- Added star of new function to split up produced files and send to different folders.
+- PyCodeStyle compliant.
+- PyLint score of 9.12.
+- New function (saveandsort) to sort selections of files into user selected files.
+- Added Sanity checking for python version as well as module import.
 
 ## FUTURE WORK TO BE IMPLIMENTED
 - -Each function now has a different saving scheme (temporary
   scheme) to differentiate the results of each function (will add a file system to better organise this)-
 - Create better Entry
 - -Reduce false errors-
-- New function to sort selections of files into user selected files.
