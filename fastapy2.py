@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-  import sys
+import sys
 if sys.version_info[0] < 2 and sys.version_info[1] < 7:
     raise Exception("""Must be using Python 2.7 for the full
                     functionality of this script.\n
