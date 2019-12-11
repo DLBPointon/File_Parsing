@@ -272,7 +272,7 @@ def entryfunction(filein, fileout, entries=1):
             entry = []
 
 
-def chunkfunction(filein, fileout, , ORG='chunk'):
+def chunkfunction(FI, FO, CS, ORG='chunk'):
     """A function to split a file based on user defined bp per file"""
     towrite = []
     length = 0
@@ -286,7 +286,7 @@ def chunkfunction(filein, fileout, , ORG='chunk'):
     while read:
         towrite.append(read)
         length += len(read)
-        if length >= CS:
+        if length >= int(CS):
             with open(f'{FO}{ORG}|{counter}.fa', 'w') as opened:
                 opened.write(''.join(towrite))
                 counter += 1
