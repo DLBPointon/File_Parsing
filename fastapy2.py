@@ -50,6 +50,7 @@ joinerfunction Function is called when only -FI and -FO are entered.
      -FO '~Hal9000/Desktop/SaveDir' -j Name'
      Name is your chosen naming scheme.
 -------------------------------------------------------------
+           - JOINER DOES NOT WORK IN PYTHON 2 - 
 -------------------------------------------------------------
 FILE Nomenclature - Uses the examples above
   -  entryfunction - Files returned as:
