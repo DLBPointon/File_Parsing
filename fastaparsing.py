@@ -1,16 +1,51 @@
 #!/usr/bin/env python
+"""Please consult ./fastaparsing -h as this is the script __doc__"""
+import sys
+if sys.version_info[0] < 3 and sys.version_info[1] < 7:
+    raise Exception("""Must be using Python 3.7 for the full
+                    functionality of this script""")
+if sys.version_info[0] >= 3 and sys.version_info[1] >= 7:
+    print('Your using at least Version 3.7, You are good to go...')
 
-"""
+PRINT_ERROR = '''Does not exist\n
+                 Get module installed before import attempt\n
+                 If running server side then contact your admin'''
+try:
+    import argparse
+    print('argparse imported')
+except ImportError:
+    print('argparse module')
+    print(PRINT_ERROR)
+    sys.exit(0)
+
+try:
+    import os
+    print('os imported')
+except ImportError:
+    print('os module')
+    print(PRINT_ERROR)
+    sys.exit(0)
+
+try:
+    import glob2
+    print('glob2 imported')
+except ImportError:
+    print('glob2 module')
+    print(PRINT_ERROR)
+    sys.exit(0)
+
+DOC_STRING = """
 -------------------------------------------------------------
                       File Parsing
 -------------------------------------------------------------
+FI - FileInput & FO - FileOutPut are mandatory arguments.
 This is my program to take an input file and produce outputs
 based on the function requested by the User.
 -------------------------------------------------------------
-FI - FileInput & FO - FileOutPut are mandatory arguments.
 --------------'.fa' file will be returned!!!-----------------
 -------------------------------------------------------------
-entryfunction Function is called when -FI, -FO and -en are entered.
+entryfunction Function is called when -FI, -FO and -en are
+entered.
   -  This will split a file into a -en defined number of
      enteries per proceduraly generated files.
      Entries are header and sequence pairs.
@@ -19,7 +54,8 @@ entryfunction Function is called when -FI, -FO and -en are entered.
      'python trial.py -FI '~Skynet/Desktop/FileOfInterest'
      -FO '~Skynet/Desktop/SaveDir' -en 100'
 -------------------------------------------------------------
-chunkfunction Function is called when -FI, -FO and -ch are entered.
+chunkfunction Function is called when -FI, -FO and -ch are
+entered.
   -  This will split a file into -ch defined number of base
      pairs per proceduraly generated file.
   -  Example Input:
@@ -29,7 +65,8 @@ chunkfunction Function is called when -FI, -FO and -ch are entered.
 
      Please Note, small file cause an entryfunction effect.
 -------------------------------------------------------------
-surgicalfunction Function is called when -FI, -FO, -sc and -ec are
+surgicalfunction Function is called when -FI, -FO, -sc and
+-ec are
      entered.
   -  This will return the bp between the two user defined
      co-ordinates, -sc and -ec (start and end respectively).
@@ -39,7 +76,8 @@ surgicalfunction Function is called when -FI, -FO, -sc and -ec are
      'python trial.py -FI '~R2D2/Desktop/FileOfInterest'
      -FO '~R2D2/Desktop/SaveDir' -sc 100000 -ec 150000'
 -------------------------------------------------------------
-joinerfunction Function is called when only -FI and -FO are entered.
+joinerfunction Function is called when only -FI and -FO are
+entered.
   -  This will concatenate a directories worth of files into
      a singular file.
      For this function -FI should end at the directory of
@@ -54,7 +92,7 @@ NOTES
   - Running joinerfunction will concatenate all fa files in
   the chosen directory.
     - ADVICED THAT YOU RUN THIS ON THE OUTPUT OF
-    entryfunction or clearly defined files.
+    entryfunction or cle arly defined files.
     - Output of joinerfunction with an input from
     chunkfunction created badly formatted data.
 -------------------------------------------------------------
@@ -74,27 +112,20 @@ FILE Nomenclature - Uses the examples above
 -------------------------------------------------------------
            By Damon-Lee Pointon
 """
-import sys
-import argparse
-import textwrap
-import os
-import glob2
 
 
-def parse_command_args(args=sys.argv[1:]):
-    """
-    Sets up and parses command line arguments
+def parse_command_args(args=None):
+    """ Sets up and parses command line arguments
 
     Returns:
-        the arguments namespace
-    """
+        the arguments namespace """
     descformat = argparse.RawDescriptionHelpFormatter
     parser = argparse.ArgumentParser(prog='FileParsing',
                                      formatter_class=descformat,
-                                     description=textwrap.dedent(__doc__))
+                                     description=DOC_STRING)
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='%(prog)s Beta 4.0')
+                        version='%(prog)s Beta 5.0')
     parser.add_argument('-FI', '--Input',
                         type=str,
                         action='store',
@@ -207,7 +238,7 @@ def read_fasta(filetoparse):
         yield (name, ''.join(seq))
 
 
-def entryfunction(FI, FO, EN=1):
+def entryfunction(filein, fileout, entries=1):
     """The entryfunction function splits a FASTA file into a user defined
     number of entries per file"""
     count = 0
@@ -241,7 +272,7 @@ def entryfunction(FI, FO, EN=1):
             entry = []
 
 
-def chunkfunction(FI, FO, CS, ORG='chunk'):
+def chunkfunction(filein, fileout, , ORG='chunk'):
     """A function to split a file based on user defined bp per file"""
     towrite = []
     length = 0
@@ -296,7 +327,11 @@ def joinerfunction(FI, FO, J):
                 for line in infile:
                     outfile.write(line)
     print(f'Find your file at: \n {FO}{J}.fa')
-# Beleive it will fail for large files read(5000) should stop that
+
+
+def saveandsort():
+    """This function will take """
+    print(' ')
 
 
 if __name__ == '__main__':
