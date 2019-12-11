@@ -308,7 +308,7 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
         towrite = []
         length = 0
-
+    file.close()
 
 def surgicalfunction(FI, FO, SC, EC):
     """A function to find a specified index of """
