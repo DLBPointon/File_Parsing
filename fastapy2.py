@@ -1,5 +1,25 @@
 #!/usr/bin/python
 
+PRINT_ERROR = '''Does not exist\n
+                 Get module installed before import attempt\n
+                 If running server side then contact your admin'''
+
+try:
+  import sys
+  print('SYS import successful')
+except ImportError:
+  print(PRINT_ERROR)
+  sys.exit(0)
+
+try:
+  import argparse
+  print('ARGPARSE import successful')
+except ImportError:
+  print(PRINT_ERROR)
+  sys.exit(0)
+#import glob2
+
+
 DOCSTRING = """
 -------------------------------------------------------------
             File Parsing
@@ -68,9 +88,6 @@ FILE Nomenclature - Uses the examples above
 -------------------------------------------------------------
            By Damon-Lee Pointon
 """
-import sys
-import argparse
-#import glob2
 
 
 def parse_command_args(args=None):
