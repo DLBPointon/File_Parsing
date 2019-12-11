@@ -296,18 +296,18 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         length += len(read)
         if length >= CS:
             with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
-                print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
                 length = 0
+                print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
 
         read = file.readline()
     with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
         opened.write(''.join(towrite))
-        print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
         towrite = []
         length = 0
+        print('Find your file at: \n {0}{1}{2}.fa'.format(FO, ORG, counter))
     file.close()
 
 def surgicalfunction(FI, FO, SC, EC):
