@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-"""
+DOCSTRING = """
 -------------------------------------------------------------
             File Parsing
 -------------------------------------------------------------
@@ -70,11 +70,10 @@ FILE Nomenclature - Uses the examples above
 """
 import sys
 import argparse
-import textwrap
 #import glob2
 
 
-def parse_command_args(args=sys.argv[1:]):
+def parse_command_args(args=None):
     """
     Sets up and parses command line arguments
 
@@ -84,7 +83,7 @@ def parse_command_args(args=sys.argv[1:]):
     descformat = argparse.RawDescriptionHelpFormatter
     parser = argparse.ArgumentParser(prog='FileParsing',
                                      formatter_class=descformat,
-                                     description=textwrap.dedent(__doc__))
+                                     description=DOCSTRING)
     parser.add_argument('-v', '--version',
                         action='version',
                         version='%(prog)s Beta 4.0')
@@ -146,28 +145,28 @@ def main():
     
     if op.EN:
         entryfunction(op.FI, op.FO, op.EN)
-        print(f'entryfunction selected \n{sys.argv[1:]}')
+        print('entryfunction selected \n{0}'.format(sys.argv[1:]))
         if len(sys.argv[1:]) != 6:
             print('Check the number of args, somethings not right')
             sys.exit(0)
 
     if op.CS:
         chunkfunction(op.FI, op.FO, op.CS, op.ORG)
-        print(f'chunkfunction selected \n{sys.argv[1:]}')
+        print('chunkfunction selected \n{0}'.format(sys.argv[1:]))
         if len(sys.argv[1:]) != 8:
             print('Check your number of args, somethings not right')
             sys.exit(0)
 
     if op.SC and op.EC:
         surgicalfunction(op.FI, op.FO, op.SC, op.EC)
-        print(f'surgicalfunction selected \n{sys.argv[1:]}')
+        print('surgicalfunction selected \n{0}'.format(sys.argv[1:]))
         if len(sys.argv[1:]) != 8:
             print('Check your number of args, somethings not right')
             sys.exit(0)
 
     if op.J:
         joinerfunction(op.FI, op.FO, op.J)
-        print(f'joinerfunction selected \n{sys.argv[1:]}')
+        print('joinerfunction selected \n{0}'.format(sys.argv[1:]))
         if len(sys.argv[1:]) != 6:
             print('Check your number of args, somethings not right')
             sys.exit(0)
