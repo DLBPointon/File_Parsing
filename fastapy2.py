@@ -25,6 +25,15 @@ try:
 except ImportError:
   print(PRINT_ERROR)
   sys.exit(0)
+
+try:
+    import os
+    print('os imported')
+except ImportError:
+    print('os module')
+    print(PRINT_ERROR)
+    sys.exit(0)
+    
 #import glob2
 
 
