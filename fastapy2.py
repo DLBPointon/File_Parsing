@@ -272,7 +272,7 @@ def entryfunction(FI, FO, EN=1):
 
         filecounter += 1
         with open('{0}entry{1}.fa'.format(FO, filecounter), 'w') as done:
-            print('Find your file at: \n {O}entry{1}.fa'.format(F0, filecounter))
+            print('Find your file at: \n {O}entry{1}.fa'.format(FO, filecounter))
             for idss, sequence in entry:
                 done.write('{0}{1} \n'.format(idss, sequence))
 
@@ -313,7 +313,7 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
 def surgicalfunction(FI, FO, SC, EC):
     """A function to find a specified index of """
     FO += '/fastaparsed/surgical/'
-    
+
     with open(FI, 'r') as opened:
         openread = opened.read()
         openread2 = openread.strip()
