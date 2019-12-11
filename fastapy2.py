@@ -1,5 +1,13 @@
 #!/usr/bin/python
 
+  import sys
+if sys.version_info[0] < 2 and sys.version_info[1] < 7:
+    raise Exception("""Must be using Python 2.7 for the full
+                    functionality of this script.\n
+                    Python 3.7 is required for the full script.""")
+if sys.version_info[0] >= 2 and sys.version_info[1] >= 7:
+    print('Your using at least Version 2.7, You are good to go...')
+
 PRINT_ERROR = '''Does not exist\n
                  Get module installed before import attempt\n
                  If running server side then contact your admin'''
