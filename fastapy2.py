@@ -33,7 +33,7 @@ except ImportError:
     print('os module')
     print(PRINT_ERROR)
     sys.exit(0)
-    
+
 #import glob2
 
 
@@ -251,6 +251,7 @@ def entryfunction(FI, FO, EN=1):
     count = 0
     filecounter = 0
     entry = []
+    FO += '/fastaparsed/entries/'
 
     with open(FI) as filetoparse:
         for name, seq in read_fasta(filetoparse):
@@ -271,6 +272,7 @@ def entryfunction(FI, FO, EN=1):
 
         filecounter += 1
         with open('{0}entry{1}.fa'.format(FO, filecounter), 'w') as done:
+            print('Find your file at: \n {O}entry{1}.fa'.format(F0, filecounter))
             for idss, sequence in entry:
                 done.write('{0}{1} \n'.format(idss, sequence))
 
@@ -287,12 +289,14 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
     file = open(FI, 'r')
     read = file.readline()
 
+    FO += '/fastaparsed/chunked/'
+
     while read:
         towrite.append(read)
         length += len(read)
         if length >= CS:
             with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
-                print('Find your file at: \n {O}{1}.fa'.format(FO, ORG))
+                print('Find your file at: \n {O}{1}{2}.fa'.format(FO, ORG, counter))
                 opened.write(''.join(towrite))
                 counter += 1
                 towrite = []
@@ -301,13 +305,15 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
         read = file.readline()
     with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
         opened.write(''.join(towrite))
-        print('Find your file at: \n {O}{1}.fa'.format(FO, ORG))
+        print('Find your file at: \n {O}{1}{2}.fa'.format(FO, ORG, counter))
         towrite = []
         length = 0
 
 
 def surgicalfunction(FI, FO, SC, EC):
     """A function to find a specified index of """
+    FO += '/fastaparsed/surgical/'
+    
     with open(FI, 'r') as opened:
         openread = opened.read()
         openread2 = openread.strip()
