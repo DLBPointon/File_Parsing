@@ -294,7 +294,7 @@ def chunkfunction(FI, FO, CS, ORG='chunk'):
     while read:
         towrite.append(read)
         length += len(read)
-        if length >= CS:
+        if length >= int(CS):
             with open('{0}{1}|{2}.fa'.format(FO, ORG, counter), 'w') as opened:
                 opened.write(''.join(towrite))
                 counter += 1
