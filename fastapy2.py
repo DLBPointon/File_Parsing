@@ -109,6 +109,7 @@ def parse_command_args(args=None):
     parser = argparse.ArgumentParser(prog='FileParsing',
                                      formatter_class=descformat,
                                      description=DOCSTRING)
+
     parser.add_argument('-v', '--version',
                         action='version',
                         version='%(prog)s Beta 4.0')
@@ -118,42 +119,50 @@ def parse_command_args(args=None):
                         help='Input FASTA file',
                         dest="FI",
                         required=True)
+
     parser.add_argument('-FO', '--OutPut',
                         type=str,
                         action='store',
                         help='Output Directory',
                         dest="FO",
                         required=True)
+
     parser.add_argument('-cs', '--Chunk',
                         action='store',
                         type=str,
                         help='Base-pair length of chunk per file',
                         dest='CS')
+
     parser.add_argument('-org', '--Name',
                         type=str,
                         action='store',
                         help='A User defined pre-fix for the save files',
                         dest='ORG')
+
     parser.add_argument('-sc', '--SCoord',
                         action='store',
                         type=int,
                         help='The User defined Starting Index for a substring',
                         dest='SC')
+
     parser.add_argument('-ec', '--ECoord',
                         action='store',
                         type=int,
                         help='The User defined End index for a substring',
                         dest='EC')
+
     parser.add_argument('-en', '--EntryNo',
                         action='store',
                         type=int,
                         help='The number of entries required per file',
                         dest='EN')
+
     parser.add_argument('-j', '--joiner',
                         action='store',
                         type=str,
                         help='A non functional that specifies joinerfunction',
                         dest='J')
+
     op = parser.parse_args(args)
     return op
 
@@ -166,35 +175,50 @@ def main():
     A for loop for argument checking and
     function calling
     """
-    op = parse_command_args()
-    
-    if op.EN:
-        entryfunction(op.FI, op.FO, op.EN)
-        print('entryfunction selected \n{0}'.format(sys.argv[1:]))
-        if len(sys.argv[1:]) != 6:
-            print('Check the number of args, somethings not right')
-            sys.exit(0)
+    directlist = ['/fastaparsed', '/fastaparsed/entries',
+                  '/fastaparsed/chunked', '/fastaparsed/surgical',
+                  '/fastaparsed/joined']
+    accessrights = 0o755
 
-    if op.CS:
-        chunkfunction(op.FI, op.FO, op.CS, op.ORG)
-        print('chunkfunction selected \n{0}'.format(sys.argv[1:]))
-        if len(sys.argv[1:]) != 8:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+    option = parse_command_args()
 
-    if op.SC and op.EC:
-        surgicalfunction(op.FI, op.FO, op.SC, op.EC)
-        print('surgicalfunction selected \n{0}'.format(sys.argv[1:]))
-        if len(sys.argv[1:]) != 8:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+    if option.FO:
+        for direct in directlist:
+            path = option.FO + direct
+            try:
+                os.makedirs(path, accessrights)
+            except OSError:
+                print('Creation of directory has failed at: {0}'.format(path))
+            else:
+                print('Successfully created the directory path at: {0}'.format(path))
 
-    if op.J:
-        joinerfunction(op.FI, op.FO, op.J)
-        print('joinerfunction selected \n{0}'.format(sys.argv[1:]))
-        if len(sys.argv[1:]) != 6:
-            print('Check your number of args, somethings not right')
-            sys.exit(0)
+        if option.EN:
+            entryfunction(option.FI, option.FO, option.EN)
+            print('entryfunction selected \n{0}'.format(sys.argv[1:])
+            if len(sys.argv[1:]) != 6:
+                print('Check the number of args, somethings not right')
+                sys.exit(0)
+
+        if option.CS:
+            chunkfunction(option.FI, option.FO, option.CS, option.ORG)
+            print('chunkfunction selected \n{0}'.format(sys.argv[1:])
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
+
+        if option.SC and option.EC:
+            surgicalfunction(option.FI, option.FO, option.SC, option.EC)
+            print('surgicalfunction selected \n{0}'.format(sys.argv[1:])
+            if len(sys.argv[1:]) != 8:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
+
+        if option.J:
+            joinerfunction(option.FI, option.FO, option.J)
+            print('joinerfunction selected \n{0}'.format(sys.argv[1:])
+            if len(sys.argv[1:]) != 6:
+                print('Check your number of args, somethings not right')
+                sys.exit(0)
 
 
 def read_fasta(filetoparse):
