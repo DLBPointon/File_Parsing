@@ -272,7 +272,7 @@ def entryfunction(FI, FO, EN=1):
 
         filecounter += 1
         with open('{0}entry{1}.fa'.format(FO, filecounter), 'w') as done:
-            print('Find your file at: \n {O}entry{1}.fa'.format(FO, filecounter))
+            print('Find your file at: \n {0}entry{1}.fa'.format(FO, filecounter))
             for idss, sequence in entry:
                 done.write('{0}{1} \n'.format(idss, sequence))
 
