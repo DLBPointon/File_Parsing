@@ -97,4 +97,4 @@ This will return the full user instructions for using this script, file nomencla
 - -Each function now has a different saving scheme (temporary
   scheme) to differentiate the results of each function (will add a file system to better organise this)-
 - Create better Entry
-- -Reduce false errors-
+- Check whether a folder already exists before trying to make a new one on top of it. 
